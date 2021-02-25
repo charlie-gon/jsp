@@ -16,10 +16,22 @@
 			//var param = "email="+$('[name=email]').val();
 			param = {email: $('[name=email]').val()}
 			$.ajax({
-				url: "../EmailCheck?",
-				data: param,
+				url: "EmailCheck?",
+				data: param, // 서버에 보낼 파라미터
+				//dataType: "xml",
+				dataType: "json", // 결과 type(String, json ..)
 				success: function(obj){
-					$('#emailResult').append("결과: " , obj)
+					
+					// json 방식
+					if(obj.email == true){
+						$('#emailResult').html("<font color='blue'>사용가능</font>");
+					}else{
+						$('#emailResult').html("<font color='red'>사용불가능</font>");
+					}
+					
+					// xml 방식
+					//$('#emailResult').html($(obj).find("email").text());
+					
 				}
 			});
 		});	
@@ -29,9 +41,9 @@
 <body>
 <h3 id="top">사원등록</h3>
 
-<c:set var="url" value="../EmpInsert" />
+<c:set var="url" value="EmpInsert" />
 <c:if test="${not empty empVo.employee_id }">
-<c:set var="url" value="../EmpUpdate" />
+<c:set var="url" value="EmpUpdate" />
 </c:if>
 
 <form action="${url }" method="post" name="frm">

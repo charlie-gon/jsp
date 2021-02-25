@@ -116,28 +116,25 @@ public class EmpDAO {
 				// connect
 				conn = JdbcUtil.connect();
 				// statement
-				String sql = "SELECT "
-						+ "EMPLOYEE_ID,"
-						+ "FIRST_NAME,"
-						+ "LAST_NAME,"
-						+ "EMAIL,"
-						+ "PHONE_NUMBER,"
-						+ "HIRE_DATE,"
-						+ "JOB_ID,"
-						+ "SALARY,"
-						+ "COMMISSION_PCT,"
-						+ "MANAGER_ID,"
-						+ "DEPARTMENT_ID "
-						+ "FROM EMPLOYEES "
-						+ "EMAIL = ?";
+				String sql = "SELECT * FROM EMPLOYEES WHERE EMAIL = ?";
 				pstmt = conn.prepareStatement(sql);
 				// execute
 				pstmt.setString(1, email);
 				ResultSet rs = pstmt.executeQuery();
 				if(rs.next()) {
 					vo = new EmpVO();
-					vo.setEmployee_id(rs.getString(1));
+					vo.setEmployee_id(rs.getString("employee_id"));
 					vo.setFirst_name(rs.getString("first_name"));
+					vo.setLast_name(rs.getString("last_name"));
+					vo.setEmail(rs.getString("email"));
+					vo.setPhone_number(rs.getString("phone_number"));
+					vo.setHire_date(rs.getDate("hire_date"));
+					vo.setJob_id(rs.getString("job_id"));
+					vo.setSalary(rs.getString("salary"));
+					vo.setCommission_pct(rs.getString("commission_pct"));
+					vo.setManager_id(rs.getString("manager_id"));
+					vo.setDepartment_id(rs.getString("department_id"));
+					
 				}
 			}catch(Exception e) {
 				e.printStackTrace(); // 세부 에러 메시지 출력
